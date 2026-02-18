@@ -17,9 +17,6 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Mr. Peipz Designs | High-End Art & Commissions",
   description: "Exquisite handcrafted art pieces and bespoke commissions.",
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
