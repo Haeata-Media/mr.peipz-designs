@@ -27,13 +27,24 @@ const getProductById = async (req, res) => {
   }
 };
 
+const { productSchema } = require('../utils/validators');
+
 const createProduct = async (req, res) => {
   try {
     const { title, description, price, category, dimensions, materials, stock, isLimitedEdition, editionSize, image, dropDate } = req.body;
     
-    // Allow image to be passed in body (from client upload) or handle file upload here if using multer
-    // For now assuming client uploads to Cloudinary and sends URL
-    
+    // Validate input
+    const validation = productSchema.safeParse({
+      title, description, price: parseFloat(price), category, stock: parseInt(stock), 
+      isLimitedEdition: isLimitedEdition === 'true' || isLimitedEdition === true,
+      editionSize: editionSize ? parseInt(editionSize) : null,
+      dropDate: dropDate ? new Date(dropDate).toISOString() : null
+    });
+
+    if (!validation.success) {
+      return res.status(400).json({ errors: validation.error.format() });
+    }
+
     const product = await prisma.product.create({
       data: {
         title,

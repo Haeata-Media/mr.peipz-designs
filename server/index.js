@@ -4,10 +4,26 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware to capture raw body for Stripe Webhooks
+// Security Middleware
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiting to all requests
+app.use(limiter);
+
+// Webhook handling - must be before express.json()
 app.use((req, res, next) => {
   if (req.originalUrl === '/api/stripe/webhook') {
     next();
