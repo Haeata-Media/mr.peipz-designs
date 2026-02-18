@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import CheckoutButton from '@/components/CheckoutButton';
 
 export default function ProductPage() {
   const params = useParams();
@@ -9,7 +10,7 @@ export default function ProductPage() {
 
   // Dummy product data (would come from API/Context)
   const product = {
-    id: id,
+    id: id as string,
     title: 'Golden Fracture',
     price: 1200,
     category: 'Sculpture',
@@ -56,12 +57,7 @@ export default function ProductPage() {
             </div>
 
             <div className="mt-8">
-              <button 
-                className="w-full py-4 bg-primary text-black font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300"
-                onClick={() => alert('Add to Cart not implemented yet')}
-              >
-                Add to Cart
-              </button>
+              <CheckoutButton product={product} />
             </div>
           </div>
         </div>

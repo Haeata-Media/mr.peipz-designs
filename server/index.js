@@ -7,18 +7,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Middleware to capture raw body for Stripe Webhooks
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/stripe/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 app.use(cors());
-app.use(express.json());
 
-const productRoutes = require('./routes/products');
-const orderRoutes = require('./routes/orders');
-const commissionRoutes = require('./routes/commissions');
-const userRoutes = require('./routes/users');
-
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/commissions', commissionRoutes);
-app.use('/api/users', userRoutes);
+// Raw body parser for webhook
+app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
+  req.rawBody = req.body;
+  next();
+});
 
 app.get('/', (req, res) => {
   res.send('API is running...');
