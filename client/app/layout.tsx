@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   description: "Exquisite handcrafted art pieces and bespoke commissions.",
 };
 
+import { AuthProvider } from "@/context/AuthContext";
+
+// ... metadata ...
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
