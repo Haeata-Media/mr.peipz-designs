@@ -99,6 +99,19 @@ const fulfillOrder = async (session) => {
        }
      });
   }
+
+  // Send Confirmation Email
+  const { sendEmail } = require('../utils/email');
+  await sendEmail({
+    to: customer_details.email,
+    subject: `Order Confirmation #${order.id}`,
+    html: `
+      <h1>Thank you for your order!</h1>
+      <p>Order ID: <strong>#${order.id}</strong></p>
+      <p>Total: <strong>$${order.totalAmount}</strong></p>
+      <p>We will notify you when your items ship.</p>
+    `,
+  });
 };
 
 module.exports = {

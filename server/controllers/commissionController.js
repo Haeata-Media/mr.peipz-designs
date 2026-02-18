@@ -36,7 +36,21 @@ const createCommission = async (req, res) => {
         status: 'pending',
       },
     });
-    // TODO: Send email notification
+
+    // Send Receipt Email
+    const { sendEmail } = require('../utils/email');
+    await sendEmail({
+      to: email,
+      subject: 'Commission Request Received',
+      html: `
+        <h1>Request Received</h1>
+        <p>Hi ${name},</p>
+        <p>Thank you for submitting a commission request. We have received your details and will review them shortly.</p>
+        <p><strong>Description:</strong> ${description}</p>
+        <p>We will be in touch soon!</p>
+      `,
+    });
+
     res.status(201).json(commission);
   } catch (error) {
     res.status(500).json({ message: error.message });
