@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -9,10 +8,9 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
-      <Navbar />
       <main className="flex-grow">
         <Hero />
-        {/* Featured Works Section      {/* Drop Banner */}
+        {/* Drop Banner */}
       <section className="py-20 bg-zinc-900 text-center">
         <div className="container mx-auto px-4">
           <p className="text-primary font-bold uppercase tracking-widest mb-4">Next Drop</p>

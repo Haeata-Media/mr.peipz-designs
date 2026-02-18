@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -17,10 +19,6 @@ export const metadata: Metadata = {
   description: "Exquisite handcrafted art pieces and bespoke commissions.",
 };
 
-import { AuthProvider } from "@/context/AuthContext";
-
-// ... metadata ...
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,6 +30,7 @@ export default function RootLayout({
         className={`${outfit.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
         <AuthProvider>
+          <Navbar />
           {children}
         </AuthProvider>
       </body>
