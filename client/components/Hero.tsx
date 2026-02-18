@@ -21,13 +21,13 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-sm md:text-base tracking-[0.3em] uppercase mb-4 text-primary">
-            Handcrafted Excellence
+            Contemporary and Traditional Handcrafted Taonga
           </h2>
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
-            Art That Defines Your Space
+            Functional Art
           </h1>
           <p className="text-gray-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light">
-            Exclusive drops, limited editions, and bespoke commissions for the modern connoisseur.
+            Exclusive drops, limited editions, and bespoke commissions for functional Māori.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
