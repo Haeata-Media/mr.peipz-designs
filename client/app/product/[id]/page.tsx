@@ -1,28 +1,52 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import CheckoutButton from '@/components/CheckoutButton';
 import CountdownTimer from '@/components/CountdownTimer';
 
-export default function ProductPage() {
-  const params = useParams();
-  const { id } = params;
-
-  // Dummy product data (would come from API/Context)
-  const product = {
-    id: id as string,
-    title: 'Golden Fracture',
-    price: 1200,
-    category: 'Sculpture',
-    description: 'A study in controlled chaos, where organic wood grain meets industrial gold leaf application. Each fracture is intentional, highlighting the beauty of imperfection.',
-    dimensions: '40cm x 30cm x 15cm',
-    materials: 'Reclaimed Oak, 24k Gold Leaf, Resin',
-    image: 'https://placehold.co/600x800/101010/D4AF37?text=Art+Detail',
-    isLimitedEdition: true,
-    editionSize: 10,
-    dropDate: '2026-03-01T12:00:00Z', // Example future date
+// Would be a real fetch in production
+async function getProduct(id: string) {
+    // Simulate fetch delay
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    return {
+        id: id as string,
+        title: 'Golden Fracture',
+        price: 1200,
+        category: 'Sculpture',
+        description: 'A study in controlled chaos, where organic wood grain meets industrial gold leaf application. Each fracture is intentional, highlighting the beauty of imperfection.',
+        dimensions: '40cm x 30cm x 15cm',
+        materials: 'Reclaimed Oak, 24k Gold Leaf, Resin',
+        image: 'https://placehold.co/600x800/101010/D4AF37?text=Art+Detail',
+        isLimitedEdition: true,
+        editionSize: 10,
+        dropDate: '2026-03-01T12:00:00Z',
   };
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const product = await getProduct(params.id);
+  
+  if (!product) {
+      return { title: 'Product Not Found' };
+  }
+
+  return {
+    title: `${product.title} | Mr. Peipz Designs`,
+    description: product.description,
+    openGraph: {
+      title: product.title,
+      description: product.description,
+      images: [product.image],
+      type: 'website',
+    },
+  };
+}
+
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  const product = await getProduct(params.id);
+
+  if (!product) notFound();
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-20">
