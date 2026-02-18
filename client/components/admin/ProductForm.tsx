@@ -22,7 +22,9 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     materials: initialData?.materials || '',
     stock: initialData?.stock || '',
     isLimitedEdition: initialData?.isLimitedEdition || false,
-    image: null as File | null,
+    editionSize: initialData?.editionSize || '',
+    dropDate: initialData?.dropDate ? new Date(initialData.dropDate).toISOString().slice(0, 16) : '',
+    image: initialData?.image || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -183,17 +185,28 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         />
       </div>
 
-      <div className="flex items-center">
+      <div>
+        <label className="block text-sm font-medium text-gray-400 mb-1">Drop Date (Optional)</label>
         <input
-          type="checkbox"
-          name="isLimitedEdition"
-          id="isLimitedEdition"
-          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-          checked={formData.isLimitedEdition}
+          type="datetime-local"
+          name="dropDate"
+          value={formData.dropDate}
           onChange={handleChange}
+          className="w-full bg-black border border-zinc-700 rounded p-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none"
         />
-        <label htmlFor="isLimitedEdition" className="ml-2 block text-sm text-gray-300">
-          Limited Edition?
+        <p className="text-xs text-zinc-500 mt-1">Leave blank if available immediately.</p>
+      </div>
+
+      <div>
+        <label className="flex items-center space-x-3 cursor-pointer">
+          <input
+            type="checkbox"
+            name="isLimitedEdition"
+            checked={formData.isLimitedEdition}
+            onChange={handleChange}
+            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+          />
+          <span className="text-sm font-medium text-gray-400">Limited Edition?</span>
         </label>
       </div>
 

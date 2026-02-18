@@ -30,6 +30,7 @@ model Product {
   isLimitedEdition Boolean        @default(false)
   editionSize      Int?
   soldCount        Int            @default(0)
+  dropDate         DateTime?
   images           ProductImage[]
   orderItems       OrderItem[]
   createdAt        DateTime       @default(now())

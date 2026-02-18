@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import CheckoutButton from '@/components/CheckoutButton';
+import CountdownTimer from '@/components/CountdownTimer';
 
 export default function ProductPage() {
   const params = useParams();
@@ -18,6 +19,9 @@ export default function ProductPage() {
     dimensions: '40cm x 30cm x 15cm',
     materials: 'Reclaimed Oak, 24k Gold Leaf, Resin',
     image: 'https://placehold.co/600x800/101010/D4AF37?text=Art+Detail',
+    isLimitedEdition: true,
+    editionSize: 10,
+    dropDate: '2026-03-01T12:00:00Z', // Example future date
   };
 
   return (
@@ -54,10 +58,29 @@ export default function ProductPage() {
                  <span className="text-gray-400">Materials</span>
                  <span>{product.materials}</span>
                </div>
+               {product.editionSize && (
+                 <div className="flex justify-between">
+                   <span className="text-gray-400">Edition Size</span>
+                   <span>{product.editionSize}</span>
+                 </div>
+               )}
             </div>
 
             <div className="mt-8">
-              <CheckoutButton product={product} />
+              {product.dropDate && new Date(product.dropDate) > new Date() ? (
+                <div className="text-center">
+                  <p className="text-primary font-bold uppercase tracking-widest mb-2">Dropping In</p>
+                  <CountdownTimer targetDate={product.dropDate} />
+                  <button 
+                    disabled 
+                    className="w-full py-4 bg-zinc-800 text-zinc-500 font-bold uppercase tracking-widest cursor-not-allowed mt-4"
+                  >
+                    Coming Soon
+                  </button>
+                </div>
+              ) : (
+                <CheckoutButton product={product} />
+              )}
             </div>
           </div>
         </div>

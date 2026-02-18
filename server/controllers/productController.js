@@ -29,14 +29,11 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { title, description, price, category, dimensions, materials, stock, isLimitedEdition } = req.body;
+    const { title, description, price, category, dimensions, materials, stock, isLimitedEdition, editionSize, image, dropDate } = req.body;
     
-    let imageUrl = '';
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
-      imageUrl = result.secure_url;
-    }
-
+    // Allow image to be passed in body (from client upload) or handle file upload here if using multer
+    // For now assuming client uploads to Cloudinary and sends URL
+    
     const product = await prisma.product.create({
       data: {
         title,
@@ -46,13 +43,12 @@ const createProduct = async (req, res) => {
         dimensions,
         materials,
         stock: parseInt(stock),
-        isLimitedEdition: isLimitedEdition === 'true',
-        images: {
-          create: imageUrl ? [{ url: imageUrl }] : [],
-        },
+        isLimitedEdition: isLimitedEdition === 'true' || isLimitedEdition === true,
+        editionSize: editionSize ? parseInt(editionSize) : null,
+        image,
+        dropDate: dropDate ? new Date(dropDate) : null,
       },
     });
-
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -62,7 +58,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, price, category, dimensions, materials, stock } = req.body;
+    const { title, description, price, category, dimensions, materials, stock, isLimitedEdition, editionSize, image, dropDate } = req.body;
 
     const product = await prisma.product.update({
       where: { id: parseInt(id) },
@@ -74,6 +70,10 @@ const updateProduct = async (req, res) => {
         dimensions,
         materials,
         stock: parseInt(stock),
+        isLimitedEdition: isLimitedEdition === 'true' || isLimitedEdition === true,
+        editionSize: editionSize ? parseInt(editionSize) : null,
+        image,
+        dropDate: dropDate ? new Date(dropDate) : null,
       },
     });
 
