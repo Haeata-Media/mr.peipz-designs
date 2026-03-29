@@ -24,7 +24,7 @@ export default function AdminCommissions() {
 
   const fetchCommissions = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/commissions', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/commissions`, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },

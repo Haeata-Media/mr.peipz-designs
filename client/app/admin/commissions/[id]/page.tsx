@@ -31,7 +31,7 @@ export default function CommissionDetails() {
   useEffect(() => {
     const fetchCommission = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/commissions/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/commissions/${id}`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
@@ -52,7 +52,7 @@ export default function CommissionDetails() {
 
   const updateStatus = async (newStatus: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/commissions/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/commissions/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function CommissionDetails() {
     };
 
     try {
-      const res = await fetch(`http://localhost:5000/api/commissions/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/commissions/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

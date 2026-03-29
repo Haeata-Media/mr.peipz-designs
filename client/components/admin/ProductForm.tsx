@@ -71,8 +71,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
     try {
       const url = initialData 
-        ? `http://localhost:5000/api/products/${initialData.id}`
-        : 'http://localhost:5000/api/products';
+        ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/products/${initialData.id}`
+        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/products`;
       
       const method = initialData ? 'PUT' : 'POST';
 

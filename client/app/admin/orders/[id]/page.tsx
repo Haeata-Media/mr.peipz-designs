@@ -28,7 +28,7 @@ export default function OrderDetails() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${id}`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
@@ -49,7 +49,7 @@ export default function OrderDetails() {
 
   const markAsDelivered = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${id}/deliver`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${id}/deliver`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user?.token}`,
