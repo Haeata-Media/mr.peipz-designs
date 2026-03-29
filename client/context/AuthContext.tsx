@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Check if user is logged in
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUser(JSON.parse(storedUser));
     }
     setLoading(false);
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         return { success: false, message: data.message };
       }
-    } catch (error) {
+    } catch {
       return { success: false, message: 'Something went wrong' };
     }
   };

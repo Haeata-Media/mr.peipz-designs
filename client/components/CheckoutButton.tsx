@@ -52,7 +52,10 @@ export default function CheckoutButton({ product }: CheckoutButtonProps) {
       const stripe = await stripePromise;
       if (!stripe) return;
 
-      const { error } = await (stripe as any).redirectToCheckout({ sessionId: id });
+      const stripeInstance = stripe as unknown as {
+        redirectToCheckout: (options: { sessionId: string }) => Promise<{ error?: { message: string } }>;
+      };
+      const { error } = await stripeInstance.redirectToCheckout({ sessionId: id });
       
       if (error) {
         console.error('Stripe redirect error:', error);

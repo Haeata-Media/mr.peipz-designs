@@ -19,7 +19,7 @@ export default function About() {
             With a background in [Background], he explores the intersection of nature and industrial design.
           </p>
           <p className="text-gray-400">
-            "My work is about capturing the raw essence of materials and elevating them into objects of contemplation."
+            &quot;My work is about capturing the raw essence of materials and elevating them into objects of contemplation.&quot;
           </p>
         </div>
       </div>

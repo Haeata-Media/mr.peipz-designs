@@ -6,7 +6,20 @@ import { useAuth } from '@/context/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 interface ProductFormProps {
-  initialData?: any;
+  initialData?: {
+    id?: string;
+    title?: string;
+    description?: string;
+    price?: string | number;
+    category?: string;
+    dimensions?: string;
+    materials?: string;
+    stock?: string | number;
+    isLimitedEdition?: boolean;
+    editionSize?: string | number;
+    dropDate?: string;
+    image?: string | File | null;
+  };
 }
 
 export default function ProductForm({ initialData }: ProductFormProps) {
@@ -24,7 +37,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     isLimitedEdition: initialData?.isLimitedEdition || false,
     editionSize: initialData?.editionSize || '',
     dropDate: initialData?.dropDate ? new Date(initialData.dropDate).toISOString().slice(0, 16) : '',
-    image: initialData?.image || '',
+    image: initialData?.image || (null as string | File | null),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -48,7 +61,11 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (value !== null) {
-        data.append(key, value as any);
+        if (value instanceof File) {
+          data.append(key, value);
+        } else {
+          data.append(key, String(value));
+        }
       }
     });
 

@@ -21,7 +21,7 @@ export default function Contact() {
             transition={{ delay: 0.1 }}
             className="text-gray-400 max-w-2xl mx-auto"
           >
-            Interested in a collaboration or have a question about a piece? We'd love to hear from you.
+            Interested in a collaboration or have a question about a piece? We&apos;d love to hear from you.
           </motion.p>
         </header>
 

@@ -5,6 +5,16 @@ import { useState, useEffect } from 'react';
 interface CountdownTimerProps {
   targetDate: string;
 }
+const TimeBox = ({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center mx-2">
+    <div className="bg-zinc-900 border border-zinc-700 w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-lg mb-2">
+      <span className="text-2xl md:text-3xl font-bold font-mono text-primary">
+        {value.toString().padStart(2, '0')}
+      </span>
+    </div>
+    <span className="text-xs uppercase tracking-widest text-zinc-500">{label}</span>
+  </div>
+);
 
 export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState({
@@ -36,16 +46,8 @@ export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  const TimeBox = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center mx-2">
-      <div className="bg-zinc-900 border border-zinc-700 w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-lg mb-2">
-        <span className="text-2xl md:text-3xl font-bold font-mono text-primary">
-          {value.toString().padStart(2, '0')}
-        </span>
-      </div>
-      <span className="text-xs uppercase tracking-widest text-zinc-500">{label}</span>
-    </div>
-  );
+// TimeBox is now defined at the top
+
 
   return (
     <div className="flex justify-center items-center py-6">

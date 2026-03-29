@@ -80,4 +80,6 @@ const updateCommissionStatus = async (req, res) => {
 module.exports = {
   createCommission,
   getCommissions,
+  getCommissionById,
+  updateCommissionStatus,
 };

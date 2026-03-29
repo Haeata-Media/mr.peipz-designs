@@ -10,16 +10,37 @@ const CommissionForm = () => {
     budget: '',
     description: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form Submitted', formData);
-    // TODO: Connect to backend API
-    alert('Request submitted! (Demo only)');
+    setLoading(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/commissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        alert('Request submitted successfully!');
+        setFormData({ name: '', email: '', budget: '', description: '' });
+      } else {
+        const data = await res.json();
+        alert(`Error: ${data.message || 'Submission failed'}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,9 +110,10 @@ const CommissionForm = () => {
       <div>
         <button
           type="submit"
-          className="w-full flex justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-bold uppercase tracking-widest text-black bg-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-300"
+          disabled={loading}
+          className="w-full flex justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-bold uppercase tracking-widest text-black bg-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Submit Request
+          {loading ? 'Submitting...' : 'Submit Request'}
         </button>
       </div>
     </motion.form>

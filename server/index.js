@@ -40,6 +40,13 @@ app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }), (req, 
   next();
 });
 
+// Mount API routes
+app.use('/api/users', require('./routes/users'));
+app.use('/api/products', require('./routes/products'));
+app.use('/api/orders', require('./routes/orders'));
+app.use('/api/commissions', require('./routes/commissions'));
+app.use('/api/stripe', require('./routes/stripe'));
+
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
